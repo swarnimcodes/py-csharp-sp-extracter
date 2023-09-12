@@ -1,3 +1,4 @@
 cs/
 *.xlsx
 *.cs
+build/

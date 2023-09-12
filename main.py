@@ -1,3 +1,4 @@
+import datetime
 import os
 import re
 from openpyxl import Workbook
@@ -13,7 +14,8 @@ def tokenize_inl_query(inl_q: str) -> list[str]:
 def folder_analysis() -> None:
     folder: str = input("Enter folder path:\t")
     filelist: list[str] = []
-    excel_fn: str = "Folder_Analysis.xlsx"
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    excel_fn: str = f"Folder_Analysis_{timestamp}.xlsx"
 
     sp_methods: list[str] = [
         "ExecuteNonQuerySP",
@@ -118,22 +120,25 @@ def folder_analysis() -> None:
     col_widths = {
         'A': 57,
         'B': 8,
-        'C': 7,
+        'C': 10,
         'D': 44,
         'E': 10,
         'F': 44,
-        'G': 7,
+        'G': 13,
         'H': 60,
     }
     for col, width in col_widths.items():
         ws.column_dimensions[col].width = width
     wb.save(excel_fn)
+    print(f"Excel File generated at: {os.path.abspath(excel_fn)}")
+    input("\nPress Enter to exit...\n")
 
 
 def file_analysis() -> None:
     wb = Workbook()
     ws = wb.active
-    excel_fn = "file_analysis.xlsx"
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    excel_fn = f"File_Analysis_{timestamp}.xlsx"
     file = input("\n\nEnter file path or drag and drop file:\t")
     
     sp_methods: list[str] = [
@@ -229,18 +234,19 @@ def file_analysis() -> None:
     col_widths = {
         'A': 57,
         'B': 8,
-        'C': 7,
+        'C': 10,
         'D': 44,
         'E': 10,
         'F': 44,
-        'G': 7,
+        'G': 13,
         'H': 60,
     }
     for col, width in col_widths.items():
         ws.column_dimensions[col].width = width
          
     wb.save(excel_fn)
-
+    print(f"Excel File generated at: {os.path.abspath(excel_fn)}")
+    input("\nPress Enter to exit...\n")
         
 
 
