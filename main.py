@@ -6,7 +6,7 @@ import re
 from openpyxl import Workbook
 
 
-def tokenize(inl_q: str) -> list[str]:
+def tokenize_inl_query(inl_q: str) -> list[str]:
     temp_list: list[str] = inl_q.split()
     tbl_list: list[str] = [item for item in temp_list if (item.startswith("tbl"))]
     return tbl_list
@@ -17,7 +17,7 @@ def main() -> None:
     filelist: list[str] = []
     excel_fn: str = "test.xlsx"
 
-    sp_func: list[str] = [
+    sp_methods: list[str] = [
         "ExecuteNonQuerySP",
         "ExecuteNonQueryAsyncSP",
         "ExecuteReaderSP",
@@ -27,7 +27,7 @@ def main() -> None:
         "ExecuteDataSetSP",
     ]
 
-    tbl_func: list[str] = [
+    tbl_methods: list[str] = [
         "FillDropDownOnly",
     ]
 
@@ -49,7 +49,7 @@ def main() -> None:
                 filelist.append(os.path.join(r, file))
 
     for file in filelist:
-        xl_append = []
+        excel_row = []
         sp_count: int = 0
         table_count: int = 0
         sp_list: list[str] = []
@@ -64,11 +64,11 @@ def main() -> None:
             for line in lines:
                 line_num += 1
                 if not line.startswith("//"):
-                    if bool([ele for ele in sp_func if (ele in line)]):
+                    if bool([ele for ele in sp_methods if (ele in line)]):
                         sp_list.extend(re.findall(r'"([^"]*)"', line))
                         sp_ln.append(line_num)
                         sp_count = sp_count + 1
-                    elif bool([ele for ele in tbl_func if (ele in line)]):
+                    elif bool([ele for ele in tbl_methods if (ele in line)]):
                         inl_query.append(re.findall(r'"([^"]*)"', line))
                         inl_ln.append(line_num)
                         match = re.search(r'"([^"]*)"', line)
@@ -80,7 +80,7 @@ def main() -> None:
                                 table_count += 1
                             elif bool(re.search(r"\s", m_tbl)):
                                 # tokenize should just return a list of tbls
-                                tbl_list = tokenize(m_tbl)
+                                tbl_list = tokenize_inl_query(m_tbl)
                                 table_list.extend(tbl_list)
                                 # inl_ln.append(line_num)
                                 table_count += 1
@@ -88,16 +88,16 @@ def main() -> None:
             f"Filename:\t{file}\nSP Count:\t{sp_count}\nSP List:\t{sp_list}\n"
             + f"Table Count:\t{table_count}\nTable List:\t{table_list}"
         )
-        xl_append.append(file)
-        xl_append.append(sp_count)
-        xl_append.append("\n".join(map(str, sp_ln)))
-        xl_append.append("\n".join(sp_list))
-        xl_append.append(table_count)
-        xl_append.append("\n".join(table_list))
-        xl_append.append("\n".join(map(str, inl_ln)))
-        xl_append.append("\n".join(map(str, inl_query)))
+        excel_row.append(file)
+        excel_row.append(sp_count)
+        excel_row.append("\n".join(map(str, sp_ln)))
+        excel_row.append("\n".join(sp_list))
+        excel_row.append(table_count)
+        excel_row.append("\n".join(table_list))
+        excel_row.append("\n".join(map(str, inl_ln)))
+        excel_row.append("\n".join(map(str, inl_query)))
         # Add line nums just for queries. not for separate tables
-        ws.append(xl_append)
+        ws.append(excel_row)
 
     wb.save(excel_fn)
 
