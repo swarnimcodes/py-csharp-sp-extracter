@@ -22,7 +22,8 @@ def main() -> None:
         'ExecuteReader',
         'ExecuteReaderAsync',
         'ExecuteScalar',
-        'ExecuteScalarAsync'
+        'ExecuteScalarAsync',
+        'ExecuteDataSetSP'
     ]
     
     wb = Workbook()
