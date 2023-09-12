@@ -8,7 +8,8 @@ that.
 - User is asked to provide either a file or a folder containing C# Files
 - All nested C# files or the single file provided is checked.
 - All comments are ignored.
-- Then methods for SP and Tables/Inline queries are checked for.
+- Then methods for SP and Tables/Inline queries are checked for. These methods are
+hardcoded in my code, unfortunately.
 - If found then entry is added to the SP column or the Table column
 - Some queries are long and have multiple tables mentioned in them. To
 tackle this issue, all the table names are extracted using regex pattern matching
