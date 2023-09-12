@@ -16,6 +16,7 @@ tackle this issue, all the table names are extracted using regex pattern matchin
 and appended to the table list.
 - The excel made is formatted automatically with bold headers and borders all around data.
 - The text is wrapped and column sensible column width is provided automatically.
+- The Excel file generated is timestamped to prevent overwriting.
 
 ## Should I use it?
 Not meant to be used anywhere. Made for my personal learning purpose.

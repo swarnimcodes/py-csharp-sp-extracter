@@ -4,6 +4,10 @@ import re
 from openpyxl import Workbook
 from openpyxl.styles import Font, Border, Alignment, Side
 
+"""
+TODO: abstract off common functionality into a single function and
+let the two functions for folder and file carry out small separate functions
+"""
 
 def tokenize_inl_query(inl_q: str) -> list[str]:
     temp_list: list[str] = inl_q.split()
