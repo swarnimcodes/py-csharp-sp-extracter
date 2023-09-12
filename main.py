@@ -6,6 +6,14 @@ import re
 from openpyxl import Workbook
 
 
+def tokenize(inl_q: str) -> list[str]:
+    temp_list = inl_q.split()
+    tbl_list = [item for item in temp_list if(item.startswith("tbl"))]
+    return tbl_list
+    
+    
+
+
 def strip_comments(file_content: str) -> str:
     stripped_contents = ""
     return stripped_contents
@@ -61,9 +69,15 @@ def main() -> None:
                     elif bool([ele for ele in tbl_func if(ele in line)]):
                         match = re.search(r'"([^"]*)"', line)
                         if match:
-                            first_quoted_string = match.group(1)
-                            table_list.append(first_quoted_string)
-                            table_count += 1
+                            m_tbl = match.group(1)
+                            if not bool(re.search(r"\s", m_tbl)):
+                                table_list.append(m_tbl)
+                                table_count += 1
+                            elif bool(re.search(r"\s", m_tbl)):
+                                # tokenize should just return a list of tbls
+                                tbl_list = tokenize(m_tbl)
+                                table_list.extend(tbl_list)
+                                table_count += 1
         print(
             f"Filename:\t{file}\nSP Count:\t{sp_count}\nSP List:\t{sp_list}\n"
             + f"Table Count:\t{table_count}\nTable List:\t{table_list}"
