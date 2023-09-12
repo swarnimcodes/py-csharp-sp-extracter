@@ -1,6 +1,3 @@
-"""
-Editing with Helix Text Editor and Ruff LSP for python 
-"""
 import os
 import re
 from openpyxl import Workbook
@@ -76,13 +73,10 @@ def main() -> None:
                             m_tbl = match.group(1)
                             if not bool(re.search(r"\s", m_tbl)):
                                 table_list.append(m_tbl)
-                                # inl_ln.append(line_num)
                                 table_count += 1
                             elif bool(re.search(r"\s", m_tbl)):
-                                # tokenize should just return a list of tbls
                                 tbl_list = tokenize_inl_query(m_tbl)
                                 table_list.extend(tbl_list)
-                                # inl_ln.append(line_num)
                                 table_count += 1
         print(
             f"Filename:\t{file}\nSP Count:\t{sp_count}\nSP List:\t{sp_list}\n"
@@ -96,7 +90,6 @@ def main() -> None:
         excel_row.append("\n".join(table_list))
         excel_row.append("\n".join(map(str, inl_ln)))
         excel_row.append("\n".join(map(str, inl_query)))
-        # Add line nums just for queries. not for separate tables
         ws.append(excel_row)
 
     wb.save(excel_fn)
