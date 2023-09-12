@@ -15,6 +15,16 @@ def main() -> None:
     folder = input("Enter folder path:\t")
     filelist = []
     excel_fn = "test.xlsx"
+
+    sql_func = [
+        'ExecuteNonQuery',
+        'ExecuteNonQueryAsync',
+        'ExecuteReader',
+        'ExecuteReaderAsync',
+        'ExecuteScalar',
+        'ExecuteScalarAsync'
+    ]
+    
     wb = Workbook()
     ws = wb.active
     # Headers
@@ -40,7 +50,7 @@ def main() -> None:
             lines = f.readlines()
             for line in lines:
                 if not line.startswith("//"):
-                    if "ExecuteNonQuerySP" in line or "ExecuteDataSetSP" in line:
+                    if bool([ele for ele in sql_func if (ele in line)]):
                         sp_list.extend(re.findall(r'"([^"]*)"', line))
                         sp_count = sp_count + 1
                     elif "FillDropDownOnly" in line:
