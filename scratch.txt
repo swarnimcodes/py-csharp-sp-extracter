@@ -1,0 +1,18 @@
+SP:
+ExecuteNonQuery
+ExecuteNonQueryAsync
+ExecuteReader
+ExecuteReaderAsync
+ExecuteScalar
+ExecuteScalarAsync
+
+ExecuteNonQuerySP
+ExecuteNonQueryAsyncSP
+ExecuteReaderSP
+ExecuteReaderAsyncSP
+ExecuteScalarSP
+ExecuteScalarAsyncSP
+
+
+Tables/Inline Queries:
+Check for spaces
