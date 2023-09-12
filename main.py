@@ -8,10 +8,8 @@ from openpyxl import Workbook
 
 def tokenize(inl_q: str) -> list[str]:
     temp_list = inl_q.split()
-    tbl_list = [item for item in temp_list if(item.startswith("tbl"))]
+    tbl_list = [item for item in temp_list if (item.startswith("tbl"))]
     return tbl_list
-    
-    
 
 
 def strip_comments(file_content: str) -> str:
@@ -25,19 +23,19 @@ def main() -> None:
     excel_fn = "test.xlsx"
 
     sp_func = [
-        'ExecuteNonQuerySP',
-        'ExecuteNonQueryAsyncSP',
-        'ExecuteReaderSP',
-        'ExecuteReaderAsyncSP',
-        'ExecuteScalarSP',
-        'ExecuteScalarAsyncSP',
-        'ExecuteDataSetSP'
+        "ExecuteNonQuerySP",
+        "ExecuteNonQueryAsyncSP",
+        "ExecuteReaderSP",
+        "ExecuteReaderAsyncSP",
+        "ExecuteScalarSP",
+        "ExecuteScalarAsyncSP",
+        "ExecuteDataSetSP",
     ]
 
     tbl_func = [
-        'FillDropDownOnly',
+        "FillDropDownOnly",
     ]
-    
+
     wb = Workbook()
     ws = wb.active
     # Headers
@@ -66,7 +64,7 @@ def main() -> None:
                     if bool([ele for ele in sp_func if (ele in line)]):
                         sp_list.extend(re.findall(r'"([^"]*)"', line))
                         sp_count = sp_count + 1
-                    elif bool([ele for ele in tbl_func if(ele in line)]):
+                    elif bool([ele for ele in tbl_func if (ele in line)]):
                         match = re.search(r'"([^"]*)"', line)
                         if match:
                             m_tbl = match.group(1)
