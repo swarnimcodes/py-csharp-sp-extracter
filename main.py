@@ -12,11 +12,6 @@ def tokenize(inl_q: str) -> list[str]:
     return tbl_list
 
 
-def strip_comments(file_content: str) -> str:
-    stripped_contents = ""
-    return stripped_contents
-
-
 def main() -> None:
     folder = input("Enter folder path:\t")
     filelist = []
