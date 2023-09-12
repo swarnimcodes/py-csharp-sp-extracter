@@ -1,6 +1,7 @@
 import os
 import re
 from openpyxl import Workbook
+from openpyxl.styles import Font, Border, Alignment, Side
 
 
 def tokenize_inl_query(inl_q: str) -> list[str]:
@@ -30,15 +31,25 @@ def folder_analysis() -> None:
 
     wb = Workbook()
     ws = wb.active
+    
     # Headers
     ws["A1"] = "File Path"
+    ws['A1'].font = Font(bold=True)
     ws["B1"] = "SP Count"
+    ws['B1'].font = Font(bold=True)
     ws['C1'] = "SP Line No."
+    ws['C1'].font = Font(bold=True)
     ws["D1"] = "SP List"
+    ws['D1'].font = Font(bold=True)
     ws["E1"] = "Table Count"
+    ws['E1'].font = Font(bold=True)
     ws["F1"] = "Table List"
+    ws['F1'].font = Font(bold=True)
     ws["G1"] = "Query Line No."
+    ws['G1'].font = Font(bold=True)
     ws["H1"] = "Table Query"
+    ws['H1'].font = Font(bold=True)
+
     # r=root, d=directories, f = files
     for r, d, f in os.walk(folder):
         for file in f:
@@ -92,6 +103,30 @@ def folder_analysis() -> None:
         excel_row.append("\n".join(map(str, inl_query)))
         ws.append(excel_row)
 
+    for row in ws.iter_rows():
+        for cell in row:
+            cell.alignment = Alignment(wrap_text=True)
+
+    border = Border(left=Side(style='thin'),
+    right=Side(style='thin'),
+    top = Side(style='thin'),
+    bottom = Side(style='thin'))
+
+    for row in ws.iter_rows():
+        for cell in row:
+            cell.border = border
+    col_widths = {
+        'A': 57,
+        'B': 8,
+        'C': 7,
+        'D': 44,
+        'E': 10,
+        'F': 44,
+        'G': 7,
+        'H': 60,
+    }
+    for col, width in col_widths.items():
+        ws.column_dimensions[col].width = width
     wb.save(excel_fn)
 
 
@@ -117,13 +152,21 @@ def file_analysis() -> None:
 
     # Headers
     ws["A1"] = "File Path"
+    ws['A1'].font = Font(bold=True)
     ws["B1"] = "SP Count"
+    ws['B1'].font = Font(bold=True)
     ws['C1'] = "SP Line No."
+    ws['C1'].font = Font(bold=True)
     ws["D1"] = "SP List"
+    ws['D1'].font = Font(bold=True)
     ws["E1"] = "Table Count"
+    ws['E1'].font = Font(bold=True)
     ws["F1"] = "Table List"
+    ws['F1'].font = Font(bold=True)
     ws["G1"] = "Query Line No."
+    ws['G1'].font = Font(bold=True)
     ws["H1"] = "Table Query"
+    ws['H1'].font = Font(bold=True)
 
     excel_row = []
     sp_count: int = 0
@@ -171,6 +214,31 @@ def file_analysis() -> None:
     excel_row.append("\n".join(map(str, inl_query)))
     ws.append(excel_row)
 
+    for row in ws.iter_rows():
+        for cell in row:
+            cell.alignment = Alignment(wrap_text=True)
+   
+    border = Border(left=Side(style='thin'),
+    right=Side(style='thin'),
+    top = Side(style='thin'),
+    bottom = Side(style='thin'))
+
+    for row in ws.iter_rows():
+        for cell in row:
+            cell.border = border
+    col_widths = {
+        'A': 57,
+        'B': 8,
+        'C': 7,
+        'D': 44,
+        'E': 10,
+        'F': 44,
+        'G': 7,
+        'H': 60,
+    }
+    for col, width in col_widths.items():
+        ws.column_dimensions[col].width = width
+         
     wb.save(excel_fn)
 
         
