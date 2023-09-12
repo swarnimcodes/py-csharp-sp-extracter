@@ -16,14 +16,18 @@ def main() -> None:
     filelist = []
     excel_fn = "test.xlsx"
 
-    sql_func = [
-        'ExecuteNonQuery',
-        'ExecuteNonQueryAsync',
-        'ExecuteReader',
-        'ExecuteReaderAsync',
-        'ExecuteScalar',
-        'ExecuteScalarAsync',
+    sp_func = [
+        'ExecuteNonQuerySP',
+        'ExecuteNonQueryAsyncSP',
+        'ExecuteReaderSP',
+        'ExecuteReaderAsyncSP',
+        'ExecuteScalarSP',
+        'ExecuteScalarAsyncSP',
         'ExecuteDataSetSP'
+    ]
+
+    tbl_func = [
+        'FillDropDownOnly',
     ]
     
     wb = Workbook()
@@ -51,10 +55,10 @@ def main() -> None:
             lines = f.readlines()
             for line in lines:
                 if not line.startswith("//"):
-                    if bool([ele for ele in sql_func if (ele in line)]):
+                    if bool([ele for ele in sp_func if (ele in line)]):
                         sp_list.extend(re.findall(r'"([^"]*)"', line))
                         sp_count = sp_count + 1
-                    elif "FillDropDownOnly" in line:
+                    elif bool([ele for ele in tbl_func if(ele in line)]):
                         match = re.search(r'"([^"]*)"', line)
                         if match:
                             first_quoted_string = match.group(1)
