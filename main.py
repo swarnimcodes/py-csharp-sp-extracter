@@ -39,8 +39,9 @@ def main() -> None:
     ws['C1'] = "SP Line No."
     ws["D1"] = "SP List"
     ws["E1"] = "Table Count"
-    ws["F1"] = "Table Line No."
-    ws["G1"] = "Table List"
+    ws["F1"] = "Table List"
+    ws["G1"] = "Query Line No."
+    ws["H1"] = "Table Query"
     # r=root, d=directories, f = files
     for r, d, f in os.walk(folder):
         for file in f:
@@ -54,7 +55,8 @@ def main() -> None:
         sp_list = []
         sp_ln = []
         table_list = []
-        tbl_ln = []
+        inl_ln = []
+        inl_query = []
         print(file)
         with open(file, "r") as f:
             lines = f.readlines()
@@ -67,18 +69,20 @@ def main() -> None:
                         sp_ln.append(line_num)
                         sp_count = sp_count + 1
                     elif bool([ele for ele in tbl_func if (ele in line)]):
+                        inl_query.append(re.findall(r'"([^"]*)"', line))
+                        inl_ln.append(line_num)
                         match = re.search(r'"([^"]*)"', line)
                         if match:
                             m_tbl = match.group(1)
                             if not bool(re.search(r"\s", m_tbl)):
                                 table_list.append(m_tbl)
-                                tbl_ln.append(line_num)
+                                # inl_ln.append(line_num)
                                 table_count += 1
                             elif bool(re.search(r"\s", m_tbl)):
                                 # tokenize should just return a list of tbls
                                 tbl_list = tokenize(m_tbl)
                                 table_list.extend(tbl_list)
-                                tbl_ln.append(line_num)
+                                # inl_ln.append(line_num)
                                 table_count += 1
         print(
             f"Filename:\t{file}\nSP Count:\t{sp_count}\nSP List:\t{sp_list}\n"
@@ -89,8 +93,10 @@ def main() -> None:
         xl_append.append("\n".join(map(str, sp_ln)))
         xl_append.append("\n".join(sp_list))
         xl_append.append(table_count)
-        xl_append.append("\n".join(map(str, tbl_ln)))
         xl_append.append("\n".join(table_list))
+        xl_append.append("\n".join(map(str, inl_ln)))
+        xl_append.append("\n".join(map(str, inl_query)))
+        # Add line nums just for queries. not for separate tables
         ws.append(xl_append)
 
     wb.save(excel_fn)
