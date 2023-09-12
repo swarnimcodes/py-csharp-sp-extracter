@@ -7,17 +7,17 @@ from openpyxl import Workbook
 
 
 def tokenize(inl_q: str) -> list[str]:
-    temp_list = inl_q.split()
-    tbl_list = [item for item in temp_list if (item.startswith("tbl"))]
+    temp_list: list[str] = inl_q.split()
+    tbl_list: list[str] = [item for item in temp_list if (item.startswith("tbl"))]
     return tbl_list
 
 
 def main() -> None:
-    folder = input("Enter folder path:\t")
-    filelist = []
-    excel_fn = "test.xlsx"
+    folder: str = input("Enter folder path:\t")
+    filelist: list[str] = []
+    excel_fn: str = "test.xlsx"
 
-    sp_func = [
+    sp_func: list[str] = [
         "ExecuteNonQuerySP",
         "ExecuteNonQueryAsyncSP",
         "ExecuteReaderSP",
@@ -27,7 +27,7 @@ def main() -> None:
         "ExecuteDataSetSP",
     ]
 
-    tbl_func = [
+    tbl_func: list[str] = [
         "FillDropDownOnly",
     ]
 
@@ -50,13 +50,13 @@ def main() -> None:
 
     for file in filelist:
         xl_append = []
-        sp_count = 0
-        table_count = 0
-        sp_list = []
-        sp_ln = []
-        table_list = []
-        inl_ln = []
-        inl_query = []
+        sp_count: int = 0
+        table_count: int = 0
+        sp_list: list[str] = []
+        sp_ln: list[int] = []
+        table_list: list[str] = []
+        inl_ln: list[int] = []
+        inl_query: list[str] = []
         print(file)
         with open(file, "r") as f:
             lines = f.readlines()
