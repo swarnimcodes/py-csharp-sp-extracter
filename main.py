@@ -1,3 +1,6 @@
+"""
+Editing with Helix Text Editor and Ruff LSP for python 
+"""
 import os
 import re
 from openpyxl import Workbook
